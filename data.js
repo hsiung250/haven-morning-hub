@@ -3,6 +3,12 @@
 // 公告、教材、榮譽榜內容也都可以直接在這裡修改。
 
 const SITE_DATA = {
+  portalLinks: {
+    materials: "",
+    performanceQuery: "",
+    performanceReport: "",
+    hGroup: ""
+  },
   title: "高天通訊處早會課程",
   subtitle: "HAVEN Team｜孝順｜感恩｜專一｜熱情｜共好",
   announcements: [

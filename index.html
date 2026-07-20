@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#10243f">
+  <meta name="theme-color" content="#102b4d">
   <title>高天通訊處早會課程</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -22,73 +22,129 @@
   </header>
 
   <main>
-    <section class="dashboard" id="today">
-      <div class="section-heading">
-        <span>Today</span>
-        <h2>今日早會課程</h2>
+    <section class="today-panel" id="today">
+      <div class="section-title">
+        <span class="round-icon">▣</span>
+        <div>
+          <small>TODAY</small>
+          <h2>今日早會課程</h2>
+        </div>
       </div>
-      <div class="today-grid">
-        <article class="card date-card">
-          <small>今天日期</small>
+
+      <div class="today-summary">
+        <div class="today-date">
+          <span>今天日期</span>
           <strong id="todayDate">—</strong>
-          <span id="todayWeekday">—</span>
-        </article>
-        <article class="card">
-          <small>今日主持值星</small>
-          <strong id="todayHost">—</strong>
-          <span>早會值星＆公文宣導</span>
-        </article>
-        <article class="card">
-          <small>今日財經時事</small>
-          <strong id="todayFinance">—</strong>
-          <span>財經時事分享</span>
-        </article>
-        <article class="card accent-card">
-          <small>當天早會課程</small>
-          <strong id="todayCourse">—</strong>
-          <span id="todaySpeaker">—</span>
-        </article>
+          <b id="todayWeekday">—</b>
+        </div>
+        <div class="today-info">
+          <div class="info-item">
+            <span class="info-icon">●</span>
+            <div><small>主持值星</small><strong id="todayHost">—</strong></div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">◉</span>
+            <div><small>財經時事</small><strong id="todayFinance">—</strong></div>
+          </div>
+          <div class="info-item wide">
+            <span class="info-icon">▣</span>
+            <div><small>今日主題</small><strong id="todayCourse">—</strong><em id="todaySpeaker">—</em></div>
+          </div>
+          <div class="info-item wide">
+            <span class="info-icon">◆</span>
+            <div><small>今日公告</small><strong id="todayNotice">請查看公告中心</strong></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="content-section">
-      <div class="section-heading">
-        <span>Notice</span>
-        <h2>今日公告</h2>
-      </div>
-      <div id="announcementList" class="announcement-list"></div>
+    <section class="shortcut-grid" aria-label="功能入口">
+      <button class="shortcut" data-scroll="schedule">
+        <span class="shortcut-icon navy">▤</span>
+        <strong>課程總覽</strong>
+        <small>查看完整課程表</small>
+      </button>
+      <button class="shortcut" id="shortcutSearch">
+        <span class="shortcut-icon navy">⌕</span>
+        <strong>課程查詢</strong>
+        <small>搜尋課程與講師</small>
+      </button>
+      <button class="shortcut" data-scroll="performance-query">
+        <span class="shortcut-icon navy">▥</span>
+        <strong>業績查詢</strong>
+        <small>查詢個人業績</small>
+      </button>
+      <button class="shortcut" data-scroll="materials">
+        <span class="shortcut-icon gold">▰</span>
+        <strong>教材中心</strong>
+        <small>課程教材與文件</small>
+      </button>
+      <button class="shortcut" data-scroll="performance-report">
+        <span class="shortcut-icon gold">✓</span>
+        <strong>業績回報</strong>
+        <small>填寫業績回報單</small>
+      </button>
+      <button class="shortcut" data-scroll="h-group">
+        <span class="shortcut-icon gold">●●</span>
+        <strong>H小組研討</strong>
+        <small>研討資料與紀錄</small>
+      </button>
     </section>
 
     <section class="content-section" id="schedule">
       <div class="section-heading row-heading">
-        <div>
-          <span>Schedule</span>
-          <h2>早會課表</h2>
-        </div>
+        <div><span>SCHEDULE</span><h2>早會課表</h2></div>
         <div id="monthTabs" class="month-tabs"></div>
       </div>
       <div class="schedule-toolbar">
-        <input id="searchInput" type="search" placeholder="搜尋姓名、課程、講師、日期或關鍵字">
+        <input id="searchInput" type="search" inputmode="search"
+          placeholder="搜尋日期，例如 8/7、姓名、課程或講師">
         <button id="clearSearch" class="ghost">清除</button>
       </div>
       <div id="scheduleList" class="schedule-list"></div>
       <div id="emptyState" class="empty-state" hidden>找不到符合的課程資料。</div>
     </section>
 
-    <section class="content-section">
-      <div class="section-heading">
-        <span>Highlights</span>
-        <h2>本月重點</h2>
-      </div>
-      <div id="highlightList" class="highlight-grid"></div>
+    <section class="content-section" id="announcements">
+      <div class="section-heading"><span>NOTICE</span><h2>公告中心</h2></div>
+      <div id="announcementList" class="announcement-list"></div>
     </section>
 
-    <section class="content-section" id="materials">
-      <div class="section-heading">
-        <span>Materials</span>
-        <h2>教材中心</h2>
+    <section class="content-section portal-section" id="materials">
+      <div class="portal-heading">
+        <span class="portal-symbol">▰</span>
+        <div><small>MATERIALS</small><h2>教材中心</h2><p>集中放置早會教材、PDF、簡報與表單。</p></div>
       </div>
       <div id="materialList" class="material-grid"></div>
+      <a class="portal-action" id="materialsLink" href="#" target="_blank" rel="noopener">開啟教材中心</a>
+      <p class="edit-note">尚未設定連結時，可在 <code>data.js</code> 修改。</p>
+    </section>
+
+    <section class="content-section portal-section" id="performance-query">
+      <div class="portal-heading">
+        <span class="portal-symbol">▥</span>
+        <div><small>PERFORMANCE</small><h2>業績查詢</h2><p>連結個人業績、競賽或單位績效查詢頁面。</p></div>
+      </div>
+      <a class="portal-action" id="performanceQueryLink" href="#" target="_blank" rel="noopener">前往業績查詢</a>
+      <p class="edit-note">請在 <code>data.js</code> 的 portalLinks 設定網址。</p>
+    </section>
+
+    <section class="content-section portal-section" id="performance-report">
+      <div class="portal-heading">
+        <span class="portal-symbol">✓</span>
+        <div><small>REPORT</small><h2>業績回報</h2><p>可連接 Google 表單、Microsoft Forms 或公司回報系統。</p></div>
+      </div>
+      <a class="portal-action" id="performanceReportLink" href="#" target="_blank" rel="noopener">填寫業績回報</a>
+      <p class="edit-note">請在 <code>data.js</code> 的 portalLinks 設定網址。</p>
+    </section>
+
+    <section class="content-section portal-section" id="h-group">
+      <div class="portal-heading">
+        <span class="portal-symbol">●●</span>
+        <div><small>H GROUP</small><h2>H小組研討</h2><p>放置研討會議、共編文件、群組與會議紀錄。</p></div>
+      </div>
+      <a class="portal-action" id="hGroupLink" href="#" target="_blank" rel="noopener">進入H小組研討</a>
+      <p class="edit-note">請在 <code>data.js</code> 的 portalLinks 設定網址。</p>
     </section>
   </main>
 
@@ -96,7 +152,9 @@
     <button data-scroll="home"><b>⌂</b><span>首頁</span></button>
     <button data-scroll="today"><b>◷</b><span>今日</span></button>
     <button data-scroll="schedule"><b>▦</b><span>課表</span></button>
-    <button id="focusSearch"><b>⌕</b><span>查詢</span></button>
+    <button data-scroll="materials"><b>▰</b><span>教材中心</span></button>
+    <button data-scroll="performance-report"><b>✓</b><span>業績回報</span></button>
+    <button data-scroll="h-group"><b>●●</b><span>H小組研討</span></button>
   </nav>
 
   <script src="data.js"></script>
