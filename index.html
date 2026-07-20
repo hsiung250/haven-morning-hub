@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#071e3d">
+  <meta name="description" content="高天通訊處早會課程">
+  <title>高天通訊處早會課程</title>
+  <link rel="icon" href="assets/haven-logo.png">
+  <style>
+    :root{
+      --navy:#071e3d;--navy2:#0b2d57;--gold:#c89b3c;--gold2:#e6c778;
+      --ink:#132238;--muted:#6b7788;--line:#e6eaf0;--paper:#f4f6f9;--white:#fff;
+      --shadow:0 14px 40px rgba(7,30,61,.10);--radius:20px;
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",Arial,sans-serif;background:var(--paper);color:var(--ink)}
+    button,input{font:inherit}
+    .app{min-height:100vh}
+    .sidebar{position:fixed;inset:0 auto 0 0;width:240px;background:linear-gradient(180deg,var(--navy),#06162c);color:#fff;padding:28px 20px;z-index:20;display:flex;flex-direction:column}
+    .brand{display:flex;align-items:center;gap:14px;margin-bottom:30px}.brand img{width:66px;height:66px;object-fit:contain}.brand b{font-size:23px;letter-spacing:2px}.brand small{display:block;opacity:.75;margin-top:5px}
+    .nav{display:grid;gap:8px}.nav a{color:#fff;text-decoration:none;padding:13px 15px;border-radius:12px;opacity:.86}.nav a:hover,.nav a.active{opacity:1;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#10213a;font-weight:800}
+    .sidebarFoot{margin-top:auto;font-size:13px;line-height:1.8;opacity:.75}
+    main{margin-left:240px}
+    .hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#fff 0%,#fff 57%,#eef3f8 100%);min-height:390px;padding:65px 7vw 50px;border-bottom:1px solid var(--line)}
+    .hero:before,.hero:after{content:"";position:absolute;border-radius:50%;border:2px solid rgba(200,155,60,.22);width:520px;height:520px;right:-190px;top:-230px}.hero:after{width:330px;height:330px;right:-80px;top:40px}
+    .heroContent{position:relative;z-index:1;max-width:920px}.heroLogo{width:118px;height:118px;object-fit:contain;margin-bottom:10px}
+    .eyebrow{color:var(--gold);font-weight:900;letter-spacing:.18em}.hero h1{font-size:clamp(36px,5vw,66px);margin:10px 0 12px;color:var(--navy);line-height:1.08}.hero p{font-size:19px;color:var(--muted);margin:0 0 24px}
+    .quote{display:inline-flex;align-items:center;gap:12px;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);padding:10px 3px;color:#3a4655}
+    .content{padding:30px 4vw 80px}.gridTop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:-65px;position:relative;z-index:3}
+    .metric{background:#fff;border-radius:18px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(7,30,61,.05)}.metricHead{background:var(--navy);color:#fff;padding:13px 15px;font-weight:800}.metricBody{padding:20px;min-height:112px}.metricBody strong{display:block;font-size:24px;margin-bottom:8px}.metricBody span{color:var(--muted);line-height:1.5}
+    .panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 7px 25px rgba(7,30,61,.06);margin-top:24px;padding:22px}
+    .panelHead{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.panelHead h2{margin:0;color:var(--navy)}
+    .controls{display:flex;gap:10px;flex-wrap:wrap}.search{border:1px solid var(--line);border-radius:12px;padding:10px 13px;min-width:230px}.btn{border:0;border-radius:12px;padding:10px 14px;background:var(--navy);color:#fff;text-decoration:none;cursor:pointer;font-weight:750}.btn.light{background:#eef3f8;color:var(--navy)}.btn.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#14233a}
+    .weekTabs{display:flex;gap:9px;overflow:auto;padding:16px 0 5px}.weekTabs button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 15px;cursor:pointer}.weekTabs button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+    .cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;margin-top:16px}.dayCard{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;transition:.2s}.dayCard:hover{transform:translateY(-3px);box-shadow:var(--shadow)}.dayCard.today{outline:3px solid rgba(200,155,60,.42)}
+    .dayDate{padding:13px;background:#eef3f8;color:var(--navy);font-weight:900;display:flex;justify-content:space-between}.dayCard.today .dayDate{background:linear-gradient(135deg,var(--gold2),var(--gold))}
+    .dayBody{padding:15px}.row{padding:10px 0;border-bottom:1px dashed var(--line)}.row:last-child{border-bottom:0}.label{font-size:12px;color:var(--gold);font-weight:900;letter-spacing:.04em}.value{margin-top:4px;line-height:1.5}.course{font-size:18px;font-weight:900;color:var(--navy)}
+    .empty{padding:45px;text-align:center;color:var(--muted)}.notice{display:flex;gap:13px;align-items:flex-start;background:#fff8e7;border:1px solid #f0ddb1;border-radius:14px;padding:15px;margin-top:18px}.notice b{color:#9b6b13}
+    footer{text-align:center;padding:28px;color:var(--muted)}
+    .mobileNav{display:none}
+    .mobileNav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+    .mobileNav a span{font-size:18px;line-height:1}
+    @media(max-width:1150px){.gridTop{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:760px){
+      .sidebar{display:none}main{margin-left:0}.hero{min-height:335px;padding:34px 22px 90px}.heroLogo{width:92px;height:92px}.hero h1{font-size:38px}.hero p{font-size:16px}.content{padding:18px 14px 115px}.gridTop{grid-template-columns:1fr 1fr;margin-top:-65px;gap:10px}.metricHead{font-size:13px}.metricBody{padding:15px;min-height:100px}.metricBody strong{font-size:18px}.cards{grid-template-columns:1fr}.panel{padding:16px}.search{min-width:100%;width:100%}.controls{width:100%}.controls .btn{flex:1;text-align:center}
+      .mobileNav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);backdrop-filter:blur(14px);border-top:1px solid var(--line);z-index:30;padding:9px max(10px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));gap:8px}
+      .mobileNav a{min-height:55px;border-radius:14px;font-size:12px;text-decoration:none;font-weight:900;padding:7px 4px;box-shadow:0 7px 18px rgba(7,30,61,.16);transition:.2s}
+      .mobileNav a:active{transform:scale(.97)}
+      .mobileNav .navHome,.mobileNav .navToday,.mobileNav .navTop{background:linear-gradient(145deg,#0b2d57,#071e3d);color:#fff}
+      .mobileNav .navSchedule{background:linear-gradient(145deg,var(--gold2),var(--gold));color:#14233a}
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><img src="assets/haven-logo.png" alt="HAVEN Logo"><div><b>HAVEN</b><small>高天通訊處</small></div></div>
+    <nav class="nav">
+      <a class="active" href="#home">首頁</a>
+      <a href="#schedule">課程總覽</a>
+      <a href="#today">今日課程</a>
+    </nav>
+    <div class="sidebarFoot">團結・專業・共贏・卓越<br>We Are HAVEN</div>
+  </aside>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="heroContent">
+        <img class="heroLogo" src="assets/haven-logo.png" alt="HAVEN Logo">
+        <div class="eyebrow" id="brandName">HAVEN</div>
+        <h1 id="siteTitle">高天通訊處早會課程</h1>
+        <p>HAVEN Team Morning Meeting Platform</p>
+        <div class="quote">“<span id="quoteText">今天的努力，是明天選擇人生的底氣。</span>”</div>
+      </div>
+    </section>
+
+    <div class="content">
+      <section class="gridTop" id="today">
+        <article class="metric"><div class="metricHead">今日日期</div><div class="metricBody"><strong id="todayDate">—</strong><span id="todayWeekday">—</span></div></article>
+        <article class="metric"><div class="metricHead">今日主持值星</div><div class="metricBody"><strong id="todayHost">—</strong><span>早會值星＆公文宣導</span></div></article>
+        <article class="metric"><div class="metricHead">今日財經時事</div><div class="metricBody"><strong id="todayFinance">—</strong><span>財經時事分享</span></div></article>
+        <article class="metric"><div class="metricHead">今日專題課程</div><div class="metricBody"><strong id="todayCourse">—</strong><span id="todaySpeaker">—</span></div></article>
+      </section>
+
+      <section class="panel" id="schedule">
+        <div class="panelHead">
+          <h2 id="monthTitle">2026 年 8 月課程表</h2>
+          <div class="controls">
+            <input id="searchInput" class="search" placeholder="搜尋課程、講師、值星或姓名">
+            <a class="btn gold" href="assets/115年8月課表.xlsx" download>下載課表</a>
+          </div>
+        </div>
+        <div class="weekTabs" id="weekTabs"></div>
+        <div class="cards" id="scheduleCards"></div>
+        <div class="notice"><b>公告</b><span id="announcement">課程內容如有異動，請以當日公告為準。</span></div>
+      </section>
+    </div>
+    <footer>© 2026 高天通訊處 HAVEN Team</footer>
+  </main>
+
+  <nav class="mobileNav">
+    <a class="navHome" href="#home"><span>⌂</span>首頁</a>
+    <a class="navToday" href="#today"><span>◷</span>今日</a>
+    <a class="navSchedule" href="#schedule"><span>▦</span>課表</a>
+    <a class="navTop" href="#home"><span>↑</span>置頂</a>
+  </nav>
+</div>
+<script src="data.js"></script>
+<script>
+(() => {
+  const cfg = window.HAVEN_DATA || {};
+  const data = cfg.schedule || [];
+  const $ = s => document.querySelector(s);
+  document.title = cfg.siteTitle || "高天通訊處早會課程";
+  $("#siteTitle").textContent = cfg.siteTitle || "";
+  $("#brandName").textContent = cfg.brandName || "HAVEN";
+  $("#monthTitle").textContent = cfg.monthTitle || "";
+  $("#quoteText").textContent = cfg.quote || "";
+  $("#announcement").textContent = cfg.announcement || "";
+
+  const now = new Date();
+  const isoLocal = [now.getFullYear(), String(now.getMonth()+1).padStart(2,"0"), String(now.getDate()).padStart(2,"0")].join("-");
+  const exact = data.find(x => x.date === isoLocal);
+  const fallback = data[0];
+  const today = exact || fallback;
+
+  const formatDate = iso => {
+    const [y,m,d] = iso.split("-");
+    return `${Number(m)}/${Number(d)}`;
+  };
+  $("#todayDate").textContent = today ? formatDate(today.date) : "尚無課程";
+  $("#todayWeekday").textContent = exact ? today.weekday : "目前顯示本月第一堂";
+  $("#todayHost").textContent = today?.host || "—";
+  $("#todayFinance").textContent = today?.finance || "—";
+  $("#todayCourse").textContent = today?.course || "—";
+  $("#todaySpeaker").textContent = today?.speaker || "—";
+
+  let activeWeek = "all";
+  const tabs = $("#weekTabs");
+  const weekNames = [
+    ["all","整月檢視"],["1","第 1 週｜8/3–8/7"],["2","第 2 週｜8/10–8/14"],
+    ["3","第 3 週｜8/17–8/21"],["4","第 4 週｜8/24–8/28"]
+  ];
+  tabs.innerHTML = weekNames.map(([id,name]) => `<button data-week="${id}" class="${id==="all"?"active":""}">${name}</button>`).join("");
+  tabs.addEventListener("click", e => {
+    if(!e.target.matches("button")) return;
+    activeWeek = e.target.dataset.week;
+    tabs.querySelectorAll("button").forEach(b => b.classList.toggle("active", b === e.target));
+    render();
+  });
+
+  $("#searchInput").addEventListener("input", render);
+
+  function esc(s=""){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+  function render(){
+    const q = $("#searchInput").value.trim().toLowerCase();
+    const filtered = data.filter(x => {
+      const wk = activeWeek === "all" || String(x.week) === activeWeek;
+      const text = Object.values(x).join(" ").toLowerCase();
+      return wk && (!q || text.includes(q));
+    });
+    $("#scheduleCards").innerHTML = filtered.length ? filtered.map(x => `
+      <article class="dayCard ${x.date===isoLocal?"today":""}">
+        <div class="dayDate"><span>${esc(formatDate(x.date))}</span><span>${esc(x.weekday)}</span></div>
+        <div class="dayBody">
+          <div class="row"><div class="label">早會值星＆公文宣導</div><div class="value">${esc(x.host)}</div></div>
+          <div class="row"><div class="label">財經時事</div><div class="value">${esc(x.finance)}</div></div>
+          <div class="row"><div class="label">專題課程</div><div class="value course">${esc(x.course)}</div><div class="value">${esc(x.speaker)}</div></div>
+          <div class="row"><div class="label">演練＆結語</div><div class="value">${esc(x.practice)}</div>${x.practiceLead?`<div class="value">${esc(x.practiceLead)}</div>`:""}</div>
+          ${x.meeting?`<div class="row"><div class="label">當日會議</div><div class="value">${esc(x.meeting)}</div></div>`:""}
+        </div>
+      </article>`).join("") : `<div class="empty">找不到符合條件的課程</div>`;
+  }
+  render();
+})();
+</script>
+</body>
+</html>
