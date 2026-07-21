@@ -1,41 +1,13 @@
-高天通訊處早會課程 V8.1 主持值星查詢修正版
-===========================================
+高天通訊處早會課程 V8.2 修正版
 
+本版修正：
+1. Logo 改用原始透明 PNG 直接內嵌，保留完整紅、金、橘、深藍與白色。
+2. 移除 Logo 的 opacity、filter、mix-blend-mode 等顏色效果。
+3. 主持人與值星分開顯示。
+4. 星期二至星期五自動沿用當週星期一的主持／值星。
+5. 新增大型「查詢」按鈕。
+6. 全部 CSS、JavaScript、課表資料及 Logo 都已內嵌在 index.html。
 
-【本版新增】
-1. 首頁改為 App 式六宮格功能入口
-2. 底部導覽新增：
-   - 教材中心
-   - 業績回報
-   - H小組研討
-3. 保留首頁、今日、課表
-4. 新增業績查詢入口
-5. Logo 已內嵌在 index.html，不會因 GitHub 路徑失效
-6. 保留 7、8、9 月課表與跨月份搜尋
-7. 日期支援 8/7、08/07、8月7日、0807 等格式
-
-【設定四個功能網址】
-開啟 data.js，找到：
-
-portalLinks: {
-  materials: "",
-  performanceQuery: "",
-  performanceReport: "",
-  hGroup: ""
-}
-
-把雙引號內換成網址即可，例如：
-
-performanceReport: "https://forms.gle/你的表單網址"
-
-【上傳 GitHub Pages】
-解壓縮後，將資料夾內所有檔案上傳並覆蓋 haven-morning-hub 儲存庫根目錄。
-
-GitHub Pages 通常需要 1～3 分鐘更新。
-
-
-【V8.1 修正】
-- 主持人與值星分開顯示
-- 每週主持／值星資料會自動延續到該週每日，不再只顯示星期一
-- 新增一個大型「查詢」按鈕
-- 查詢按鈕會直接前往課表搜尋框並開啟鍵盤
+上傳方式：
+把 index.html 與 .nojekyll 覆蓋上傳到 GitHub 儲存庫根目錄。
+這個版本不需要 style.css、app.js、data.js 或 assets 資料夾。
