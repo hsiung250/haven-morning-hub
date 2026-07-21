@@ -49,6 +49,29 @@ function todayKey(){
 }
 function findToday(){ return allEntries().find(i => i.date === todayKey()); }
 
+function splitHostDuty(value){
+  const text=clean(value).replace(/\s+/g," ").trim();
+  if(!text) return {host:"",duty:""};
+  const sp=text.match(/^(.+?)\s*SP\s*(.+)$/i);
+  if(sp) return {host:sp[1].trim(),duty:sp[2].trim()};
+  const parts=text.split(/[｜|、,，／/]+/).map(v=>v.trim()).filter(Boolean);
+  if(parts.length>=2) return {host:parts[0],duty:parts.slice(1).join("、")};
+  return {host:text,duty:""};
+}
+function enrichHostDuty(){
+  Object.values(SITE_DATA.months).forEach(month=>{
+    let weekly="";
+    month.entries.forEach((item,index)=>{
+      const day=new Date(`${item.date}T00:00:00`).getDay();
+      if(item.host) weekly=item.host;
+      if(day===1 && item.host) weekly=item.host;
+      const parsed=splitHostDuty(item.host || weekly);
+      item.hostName=parsed.host;
+      item.dutyName=parsed.duty;
+      if(day===0) weekly="";
+    });
+  });
+}
 function renderToday(){
   const now=new Date();
   const weekdays=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
@@ -59,12 +82,14 @@ function renderToday(){
   $("#todayNotice").textContent=firstNotice.title || "請查看公告中心";
   if(!item){
     $("#todayHost").textContent="課表未收錄";
+    $("#todayDuty").textContent="—";
     $("#todayFinance").textContent="—";
     $("#todayCourse").textContent="今日無早會課程";
     $("#todaySpeaker").textContent="請查看完整課表";
     return;
   }
-  $("#todayHost").textContent=clean(item.host)||"—";
+  $("#todayHost").textContent=clean(item.hostName)||"—";
+  $("#todayDuty").textContent=clean(item.dutyName)||"—";
   $("#todayFinance").textContent=clean(item.finance)||"—";
   const course=splitCourse(item.course);
   $("#todayCourse").textContent=course.title;
@@ -103,7 +128,8 @@ function renderSchedule(){
         <span>${escapeHtml(item.weekday)}${state.query?`・${escapeHtml(SITE_DATA.months[item.monthKey].label)}`:""}</span>
       </div>
       <div class="schedule-details">
-        ${detail("主持值星",item.host)}
+        ${detail("主持人",item.hostName)}
+        ${detail("值星",item.dutyName)}
         ${detail("財經時事",item.finance)}
         ${detail("早會課程",item.course,"course")}
         ${detail("演練項目",item.practice)}
@@ -148,9 +174,11 @@ function bindEvents(){
   $$("[data-scroll]").forEach(btn => btn.addEventListener("click",() =>
     document.getElementById(btn.dataset.scroll)?.scrollIntoView({behavior:"smooth"})
   ));
-  $("#shortcutSearch").addEventListener("click",() => {
+  const openSearch=() => {
     document.getElementById("schedule")?.scrollIntoView({behavior:"smooth"});
     setTimeout(() => $("#searchInput").focus(),450);
-  });
+  };
+  $("#shortcutSearch").addEventListener("click",openSearch);
+  $("#wideQueryButton").addEventListener("click",openSearch);
 }
-renderToday();renderTabs();renderSchedule();renderAnnouncements();renderMaterials();setupPortalLinks();bindEvents();
+enrichHostDuty();renderToday();renderTabs();renderSchedule();renderAnnouncements();renderMaterials();setupPortalLinks();bindEvents();
