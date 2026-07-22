@@ -289,6 +289,47 @@ section{scroll-margin-top:18px}
   .today-info{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
 }
 
+
+/* V8.4：演練與單位主管結語採明確分區，不再錯誤整週沿用 */
+.today-info .role-card{
+  border-radius:16px;
+  padding:13px 14px;
+  border:1px solid var(--line);
+  background:#fbfaf7;
+}
+.today-info .practice-card{
+  border-left:5px solid var(--gold);
+}
+.today-info .closer-card{
+  border-left:5px solid var(--navy-light);
+}
+.today-info .role-card small{
+  margin-bottom:5px;
+}
+.schedule-details .practice-detail,
+.schedule-details .closer-detail,
+.schedule-details .practice-closer-combined{
+  border-radius:14px;
+  padding:12px 14px;
+  border:1px solid var(--line);
+}
+.schedule-details .practice-detail{
+  background:#fff9e9;
+  border-left:5px solid var(--gold);
+}
+.schedule-details .closer-detail{
+  background:#eef4fa;
+  border-left:5px solid var(--navy-light);
+}
+.schedule-details .practice-closer-combined{
+  grid-column:1/-1;
+  background:linear-gradient(135deg,#fff9e9,#eef4fa);
+  border-left:5px solid var(--gold);
+}
+@media(max-width:650px){
+  .today-info .role-card{grid-column:1/-1}
+}
+
 </style>
 </head>
 <body>
@@ -330,9 +371,13 @@ section{scroll-margin-top:18px}
             <span class="info-icon">●</span>
             <div><small>值星</small><strong id="todayDuty">—</strong></div>
           </div>
-          <div class="info-item">
-            <span class="info-icon">●</span>
-            <div><small>主管結語</small><strong id="todayCloser">—</strong></div>
+          <div class="info-item role-card practice-card">
+            <span class="info-icon">◆</span>
+            <div><small>演練項目</small><strong id="todayPractice">—</strong></div>
+          </div>
+          <div class="info-item role-card closer-card">
+            <span class="info-icon">★</span>
+            <div><small>單位主管結語</small><strong id="todayCloser">—</strong></div>
           </div>
           <div class="info-item">
             <span class="info-icon">◉</span>
@@ -1428,24 +1473,6 @@ function splitHostAndDuty(value){
 }
 
 
-function weeklyCloserText(item){
-  if(clean(item.closer)) return clean(item.closer);
-  const mondayKey=mondayKeyFor(item.date);
-  const mondayDate=new Date(`${mondayKey}T00:00:00`);
-  for(let offset=0;offset<5;offset++){
-    const date=new Date(mondayDate);
-    date.setDate(mondayDate.getDate()+offset);
-    const key=[
-      date.getFullYear(),
-      String(date.getMonth()+1).padStart(2,"0"),
-      String(date.getDate()).padStart(2,"0")
-    ].join("-");
-    const entry=allEntries().find(row=>row.date===key && clean(row.closer));
-    if(entry) return clean(entry.closer);
-  }
-  return "";
-}
-
 function renderToday(){
   const now=new Date();
   const weekdays=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
@@ -1457,6 +1484,7 @@ function renderToday(){
   if(!item){
     $("#todayHost").textContent="課表未收錄";
     $("#todayDuty").textContent="—";
+    $("#todayPractice").textContent="—";
     $("#todayCloser").textContent="—";
     $("#todayFinance").textContent="—";
     $("#todayCourse").textContent="今日無早會課程";
@@ -1466,7 +1494,13 @@ function renderToday(){
   const hostDuty=splitHostAndDuty(weeklyHostText(item));
   $("#todayHost").textContent=hostDuty.host;
   $("#todayDuty").textContent=hostDuty.duty;
-  $("#todayCloser").textContent=weeklyCloserText(item)||"—";
+  if(item.practiceCloserCombined){
+    $("#todayPractice").textContent=clean(item.practice)||"—";
+    $("#todayCloser").textContent="與演練合併呈現";
+  }else{
+    $("#todayPractice").textContent=clean(item.practice)||"—";
+    $("#todayCloser").textContent=clean(item.closer)||"—";
+  }
   $("#todayFinance").textContent=clean(item.finance)||"—";
   const course=splitCourse(item.course);
   $("#todayCourse").textContent=course.title;
@@ -1508,8 +1542,9 @@ function renderSchedule(){
         ${detail("主持值星",item.host)}
         ${detail("財經時事",item.finance)}
         ${detail("早會課程",item.course,"course")}
-        ${detail("演練項目",item.practice)}
-        ${detail("主管結語",item.closer)}
+        ${item.practiceCloserCombined
+          ? detail("演練＆單位主管結語",item.practice,"practice-closer-combined")
+          : `${detail("演練項目",item.practice,"practice-detail")}${detail("單位主管結語",item.closer,"closer-detail")}`}
         ${detail("當日會議",item.meeting,"meeting")}
       </div>
     </article>`).join("");
