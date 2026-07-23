@@ -1,12 +1,8 @@
-高天通訊處早會課程 V10.1 教材更新版
+V10.2 教材更新版
 
-新增教材：
-1150723女性癌症推動ikea更新版.key
+教材已替換為最新上傳版本。
 
-網站教材中心已新增下載按鈕。
-請將以下內容全部覆蓋上傳至 GitHub 儲存庫根目錄：
-1. index.html
-2. .nojekyll
-3. materials 資料夾（包含 Keynote 教材）
-
-上傳完成後，網站上的「教材中心」按鈕會直接帶到教材下載區。
+請覆蓋 GitHub：
+- index.html
+- .nojekyll
+- materials 資料夾
