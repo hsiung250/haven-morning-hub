@@ -1,12 +1,20 @@
-高天通訊處早會課程 V11.1｜PDF 教材下載版
+高天通訊處早會課程 V12.0 全面修正版
 
-已將上次的 Keynote 教材移除，改成最新 PDF：
-materials/women-cancer-ikea.pdf
+修正內容：
+1. 重新解析 7、8、9 月 Excel 合併儲存格。
+2. 演練項目與單位主管結語固定讀取正確欄位。
+3. 已驗證 2026/7/23：
+   - 演練項目：增員工具
+   - 單位主管結語：蕭如菁 經理
+4. PDF 放在 GitHub 根目錄，避免 materials 資料夾漏傳。
+5. 教材中心提供：
+   - 網頁內嵌預覽
+   - 新分頁預覽
+   - PDF 原檔下載
 
-GitHub 覆蓋時請完整上傳：
+GitHub 覆蓋時必須上傳三個檔案：
 - index.html
 - .nojekyll
-- materials 資料夾
+- women-cancer-ikea.pdf
 
-教材按鈕會開啟或下載 PDF 原始檔：
-https://raw.githubusercontent.com/hsiung250/haven-morning-hub/main/materials/women-cancer-ikea.pdf
+看到「V12.0 全面修正版」代表新版已生效。
