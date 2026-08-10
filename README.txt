@@ -1,2 +1,2 @@
-V12.3：已更新最新8月、9月課表；保留7/31海報與PDF教材。
-上傳 index.html、.nojekyll、women-cancer-ikea.pdf。
+V12.4：沿用V12.3八、九月課表；課表搜尋支援日期、講師名稱與課程名稱，並移除H小組研討按鈕。
+上傳 index.html、women-cancer-ikea.pdf。
