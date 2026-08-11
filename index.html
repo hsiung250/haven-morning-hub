@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>高天通訊處早會課程｜V12.3</title>
+<title>高天通訊處早會課程｜V12.5</title>
 <style>
 :root{--navy:#0d2d50;--navy2:#174b7d;--gold:#eab327;--cream:#f5f2eb;--paper:#fff;--ink:#0b2442;--muted:#68758a;--line:#e5e0d6;--shadow:0 16px 42px rgba(9,35,63,.13)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--cream);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC",sans-serif;padding-bottom:112px}
@@ -26,8 +26,8 @@ main{max-width:1040px;margin:-60px auto 0;padding:0 16px}
 .material-card{border:1px solid var(--line);border-radius:20px;padding:18px;background:#fffaf0}.material-head{display:flex;gap:14px;align-items:center;margin-bottom:14px}.pdf-icon{width:52px;height:52px;border-radius:15px;background:var(--gold);display:grid;place-items:center;font-weight:1000;color:var(--navy)}.material-head h3{margin:0 0 4px}.material-head p{margin:0;color:var(--muted)}.pdf-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.pdf-actions a{display:flex;justify-content:center;align-items:center;padding:13px;border-radius:999px;text-decoration:none;font-weight:900}.open-pdf{background:var(--navy);color:#fff}.download-pdf{background:#eaf1f8;color:var(--navy);border:1px solid #cddaea}.pdf-preview{width:100%;height:620px;border:1px solid var(--line);border-radius:16px;background:#fff}.preview-note{color:var(--muted);font-size:.88rem;line-height:1.5;margin-top:10px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button,.clear{border:1px solid var(--line);background:white;border-radius:999px;padding:10px 15px;font-weight:900;color:var(--navy)}.tabs button.active{background:var(--navy);color:white}input{flex:1;min-width:190px;border:1px solid var(--line);border-radius:14px;padding:14px}
 .schedule-list{display:grid;gap:12px}.schedule-item{border:1px solid var(--line);border-radius:18px;padding:16px}.schedule-head{display:flex;justify-content:space-between;font-weight:900;margin-bottom:12px}.schedule-details{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{border-radius:12px;padding:10px 12px;background:#f8f8f6;white-space:pre-line}.field small{display:block;color:var(--muted);font-weight:900;margin-bottom:4px}.field.practice{border-left:5px solid var(--gold)}.field.closer{border-left:5px solid var(--navy2)}.field.wide{grid-column:1/-1}
-.bottom{position:fixed;left:16px;right:16px;bottom:14px;background:var(--navy);color:white;border-radius:28px;padding:14px 10px;display:grid;grid-template-columns:repeat(6,1fr);z-index:20;box-shadow:0 16px 30px rgba(0,0,0,.24)}.bottom button{border:0;background:transparent;color:white;font-size:.76rem}.bottom span{display:block;font-size:1.15rem;margin-bottom:4px}
-@media(max-width:650px){.hero{padding-top:22px}.logo-wrap{width:190px;height:175px}.logo{width:170px}.card{padding:18px}.today-box{padding:16px}.role-grid{gap:8px}.role{padding:13px 10px;grid-template-columns:24px minmax(0,1fr);min-height:112px}.role small{font-size:.78rem}.role strong{font-size:.96rem}.shortcuts{grid-template-columns:repeat(2,1fr)}.pdf-actions{grid-template-columns:1fr}.pdf-preview{height:460px}.schedule-details{grid-template-columns:1fr}.field.wide{grid-column:auto}.bottom{left:8px;right:8px;bottom:8px}}
+.bottom{position:fixed;left:16px;right:16px;bottom:14px;background:var(--navy);color:white;border-radius:28px;padding:10px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;z-index:20;box-shadow:0 16px 30px rgba(0,0,0,.24)}.bottom button{min-width:0;min-height:54px;padding:6px 3px;border:0;border-radius:16px;background:transparent;color:white;font-size:.76rem;line-height:1.2;white-space:nowrap}.bottom button:active{background:rgba(255,255,255,.14)}.bottom span{display:block;font-size:1.15rem;margin-bottom:4px}
+@media(max-width:650px){.hero{padding-top:22px}.logo-wrap{width:190px;height:175px}.logo{width:170px}.card{padding:18px}.today-box{padding:16px}.role-grid{gap:8px}.role{padding:13px 10px;grid-template-columns:24px minmax(0,1fr);min-height:112px}.role small{font-size:.78rem}.role strong{font-size:.96rem}.shortcuts{grid-template-columns:repeat(2,1fr)}.pdf-actions{grid-template-columns:1fr}.pdf-preview{height:460px}.schedule-details{grid-template-columns:1fr}.field.wide{grid-column:auto}.bottom{left:8px;right:8px;bottom:8px;padding:8px 5px;gap:1px}.bottom button{font-size:.7rem;padding-left:1px;padding-right:1px}}
 
 .course-poster-wrap{
   grid-column:1/-1;
@@ -200,6 +200,20 @@ function aliases(s){
   return [s,`${m}/${day}`,`${m}月${day}日`,`${String(m).padStart(2,"0")}${String(day).padStart(2,"0")}`];
 }
 
+function normalizeSearch(value){
+  return String(value||"")
+    .normalize("NFKC")
+    .toLocaleLowerCase("zh-Hant")
+    .replace(/[\s\u3000\-_/／年月日.,，。:：()（）<>《》+＋]/g,"");
+}
+
+function searchableText(item){
+  return normalizeSearch([
+    item.date,...aliases(item.date),item.weekday,item.host,item.finance,
+    item.course,item.practice,item.closer,item.meeting
+  ].join(" "));
+}
+
 function esc(s){
   return clean(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 }
@@ -216,13 +230,13 @@ function renderTabs(){
 }
 
 function renderList(){
-  const q=clean($("search").value).toLowerCase().replace(/\s/g,"");
+  const q=normalizeSearch($("search").value);
   let entries=q?Object.values(DATA.months).flatMap(m=>m.entries):DATA.months[month].entries;
   if(q){
-    entries=entries.filter(x=>[x.date,x.weekday,x.host,x.finance,x.course,x.practice,x.closer,x.meeting,...aliases(x.date)]
-      .some(v=>clean(v).toLowerCase().replace(/\s/g,"").includes(q)));
+    const terms=q.split(/\s+/).filter(Boolean);
+    entries=entries.filter(x=>terms.every(term=>searchableText(x).includes(term)));
   }
-  $("list").innerHTML=entries.map(x=>`
+  $("list").innerHTML=(entries.length?entries.map(x=>`
     <article class="schedule-item">
       <div class="schedule-head"><span>${x.date.slice(5).replace("-","/")}</span><span>${x.weekday}</span></div>
       <div class="schedule-details">
@@ -239,13 +253,15 @@ function renderList(){
           </a>
         </div>`:""}
       </div>
-    </article>`).join("");
+    </article>`).join(""):`<div class="schedule-item" role="status">找不到符合「${esc($("search").value)}」的課程，請確認講師姓名或課程名稱。</div>`);
 }
 
 function go(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}
 function focusSearch(){go("schedule");setTimeout(()=>$("search").focus(),400)}
 function clearSearch(){$("search").value="";renderList()}
-$("search").addEventListener("input",renderList);
+["input","change","search","keyup","compositionend"].forEach(eventName=>
+  $("search").addEventListener(eventName,renderList)
+);
 
 showToday();
 renderTabs();
