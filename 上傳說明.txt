@@ -1,0 +1,13 @@
+HAVEN 高天通訊處早會課程 V12.4
+
+GitHub Pages 上傳方式：
+1. 將此資料夾內的 index.html 上傳並覆蓋網站原本的 index.html。
+2. 原網站若已有 haven-logo.png 與 august-schedule.jpeg，請保留，不要刪除。
+3. 本次更新重點：
+   - 修正日期／講師姓名／課程名稱搜尋
+   - 搜尋「許智雄」可找到相關課程與演練值星
+   - 手機底部導覽按鈕重新整齊排列
+
+注意：
+此更新包未重複放入 haven-logo.png 與 august-schedule.jpeg；
+網站會沿用 GitHub 原本已有的這兩個圖片檔。
