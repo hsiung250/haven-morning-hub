@@ -111,6 +111,7 @@ main{max-width:1040px;margin:-60px auto 0;padding:0 16px}
 </section>
 
 <section class="shortcuts">
+  <a class="shortcut" href="https://haven-schedule-admin.hsiung250.chatgpt.site" target="_blank" rel="noopener"><span>＋</span>管理課表／上傳圖片</a>
   <button class="shortcut" onclick="go('schedule')"><span>▤</span>課程總覽</button>
   <button class="shortcut" onclick="focusSearch()"><span>⌕</span>課程查詢</button>
   <button class="shortcut"><span>▥</span>業績查詢</button>
@@ -251,9 +252,27 @@ function focusSearch(){go("schedule");setTimeout(()=>$("search").focus(),400)}
 function clearSearch(){$("search").value="";renderList()}
 $("search").addEventListener("input",renderList);
 
-showToday();
-renderTabs();
-renderList();
+async function loadPublishedSchedule(){
+  try{
+    const response=await fetch(`./schedule-data.json?v=${Date.now()}`,{cache:"no-store"});
+    if(!response.ok)return;
+    const published=await response.json();
+    Object.entries(published.months||{}).forEach(([key,value])=>{
+      const current=DATA.months[key]||{label:value.label||`${Number(key)}月`,entries:[]};
+      const byDate=new Map((current.entries||[]).map(entry=>[entry.date,entry]));
+      (value.entries||[]).forEach(entry=>byDate.set(entry.date,{...(byDate.get(entry.date)||{}),...entry}));
+      current.label=value.label||current.label;
+      current.entries=[...byDate.values()].sort((a,b)=>a.date.localeCompare(b.date));
+      DATA.months[key]=current;
+    });
+  }catch(error){console.info("使用網頁內建課表",error)}
+}
+
+loadPublishedSchedule().finally(()=>{
+  showToday();
+  renderTabs();
+  renderList();
+});
 </script>
 </body>
 </html>
